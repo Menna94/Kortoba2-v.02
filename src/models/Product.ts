@@ -48,8 +48,35 @@ export class Product{
       })
     }
 
-    // update(){}
+    static update(id:number, data:any){
+      console.log(typeof data);
 
-    // delete(){} 
+      let params = []
+      let query = `UPDATE product SET `;
+
+
+          //set 
+      for(const [key, value] of Object.entries(data)){
+        query += `? = ? `
+        params.push(key)
+        params.push(value)
+      }
+
+      query += `WHERE id = ?`
+      params.push(id);
+      console.log(params);
+      console.log(query);
+      
+
+      return DbConnection()
+      .then(async conn=>{
+        const [rows, fields] = await conn.execute(query, params)
+
+        return rows;
+      })
+
+    }
+
+    static delete(){} 
 
 }

@@ -5,6 +5,9 @@ import { Product } from "../models/Product"
 
 
 
+//@desc     Create A Product
+//@route    POST /products/
+//@access   private/@user/@admin
 export const addProduct =  async (req: Request, res: Response) => {
     let response;
     try{
@@ -40,6 +43,10 @@ export const addProduct =  async (req: Request, res: Response) => {
 }
 
 
+
+//@desc     Fetch All Products
+//@route    GET /products/
+//@access   public
 export const getProducts =  async (req: Request, res: Response) => {
     let response;
     try{
@@ -63,6 +70,10 @@ export const getProducts =  async (req: Request, res: Response) => {
 }
 
 
+
+//@desc     Fetch A Product
+//@route    GET /products/:id
+//@access   private/@publisher/@admin
 export const getProduct =  async (req: Request, res: Response) => {
     let response;
     const id = req.params.id;
@@ -80,6 +91,43 @@ export const getProduct =  async (req: Request, res: Response) => {
 
     catch(err){
         response = new ResponseHandler({ statusCode:500, data: err.message, operation:'fetching', operand:'products'} )
+        response.respond();
+        return res.status(500).send(response.response);
+    }
+
+}
+
+
+
+//@desc     Update A Product
+//@route    PUT /products/:id
+//@access   private/@publisher/@admin
+export const updateProduct =  async (req: Request, res: Response) => {
+    let response;
+    const id = +req.params.id;
+    try{
+        const { 
+            title,
+            price,
+            shortDescription,
+            imgURL,
+        } :Product = req.body;
+        
+        
+        const product = await Product.update(id, req.body)
+
+        if (!product) {
+            response = new ResponseHandler({ statusCode:404, data: null, operation:'Updating', operand:'Product'} )
+            response.respond();
+            return res.status(200).send(response.response);
+        }
+        response = new ResponseHandler({ statusCode:200, data:product, operation:'Updating', operand:'Product'} )
+        response.respond();
+        res.status(200).send(response.response);
+    }
+
+    catch(err){
+        response = new ResponseHandler({ statusCode:500, data: err.message, operation:'Updating', operand:'Product'} )
         response.respond();
         return res.status(500).send(response.response);
     }

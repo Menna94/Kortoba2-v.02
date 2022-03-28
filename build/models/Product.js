@@ -46,5 +46,26 @@ class Product {
             return rows;
         }));
     }
+    static update(id, data) {
+        console.log(typeof data);
+        let params = [];
+        let query = `UPDATE product SET `;
+        //set 
+        for (const [key, value] of Object.entries(data)) {
+            query += `? = ? `;
+            params.push(key);
+            params.push(value);
+        }
+        query += `WHERE id = ?`;
+        params.push(id);
+        console.log(params);
+        console.log(query);
+        return (0, db_1.DbConnection)()
+            .then((conn) => __awaiter(this, void 0, void 0, function* () {
+            const [rows, fields] = yield conn.execute(query, params);
+            return rows;
+        }));
+    }
+    static delete() { }
 }
 exports.Product = Product;

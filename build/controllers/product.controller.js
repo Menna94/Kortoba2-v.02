@@ -9,10 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProduct = exports.getProducts = exports.addProduct = void 0;
+exports.updateProduct = exports.getProduct = exports.getProducts = exports.addProduct = void 0;
 const ResponseHandler_1 = require("../helper/ResponseHandler");
 // import { DbConnection as  } from "../configs/db";
 const Product_1 = require("../models/Product");
+//@desc     Create A Product
+//@route    POST /products/
+//@access   private/@user/@admin
 const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let response;
     try {
@@ -35,6 +38,9 @@ const addProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.addProduct = addProduct;
+//@desc     Fetch All Products
+//@route    GET /products/
+//@access   public
 const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let response;
     try {
@@ -55,6 +61,9 @@ const getProducts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.getProducts = getProducts;
+//@desc     Fetch A Product
+//@route    GET /products/:id
+//@access   private/@publisher/@admin
 const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let response;
     const id = req.params.id;
@@ -76,3 +85,28 @@ const getProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.getProduct = getProduct;
+//@desc     Update A Product
+//@route    PUT /products/:id
+//@access   private/@publisher/@admin
+const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let response;
+    const id = +req.params.id;
+    try {
+        const { title, price, shortDescription, imgURL, } = req.body;
+        const product = yield Product_1.Product.update(id, req.body);
+        if (!product) {
+            response = new ResponseHandler_1.ResponseHandler({ statusCode: 404, data: null, operation: 'Updating', operand: 'Product' });
+            response.respond();
+            return res.status(200).send(response.response);
+        }
+        response = new ResponseHandler_1.ResponseHandler({ statusCode: 200, data: product, operation: 'Updating', operand: 'Product' });
+        response.respond();
+        res.status(200).send(response.response);
+    }
+    catch (err) {
+        response = new ResponseHandler_1.ResponseHandler({ statusCode: 500, data: err.message, operation: 'Updating', operand: 'Product' });
+        response.respond();
+        return res.status(500).send(response.response);
+    }
+});
+exports.updateProduct = updateProduct;
