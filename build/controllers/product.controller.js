@@ -11,8 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deleteProduct = exports.updateProduct = exports.getProduct = exports.getProducts = exports.addProduct = void 0;
 const ResponseHandler_1 = require("../helper/ResponseHandler");
-// import { DbConnection as  } from "../configs/db";
-const Product_1 = require("../models/Product");
+const Product_1 = require("../repositories/Product");
 //@desc     Create A Product
 //@route    POST /products/
 //@access   private/@user/@admin

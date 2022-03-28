@@ -6,15 +6,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 // import ('dotenv/config');
 const express_1 = __importDefault(require("express"));
 const db_1 = require("./configs/db");
-const app = (0, express_1.default)();
-// import  cors from 'cors';
-// import  {router}  from './routes/product.routes';
-// import { db } from './configs/db';
+//Routes
 const product_routes_1 = require("./routes/product.routes");
+const auth_routes_1 = require("./routes/auth.routes");
+//application configs
+const app = (0, express_1.default)();
 const port = process.env.PORT || 3300;
 app.use(express_1.default.json());
 //mount routers
-app.use('/products', product_routes_1.router);
+app.use('/api/products', product_routes_1.router);
+app.use('/api/auth', auth_routes_1.router);
 (0, db_1.DbConnection)()
     .then(() => {
     console.log('from app listening');

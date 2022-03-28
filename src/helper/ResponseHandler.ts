@@ -2,13 +2,15 @@ interface ResponseRequest{
     statusCode:number,
     data:any,
     operation:string,
-    operand:string
+    operand:string,
+    custom?: any
 }
 
 interface Response{
     success: boolean,
     msg: string,
-    data: any
+    data: any,
+    custom?:any
 }
 
 export class ResponseHandler{
@@ -22,18 +24,21 @@ export class ResponseHandler{
                     success: false,
                     msg: `Internal Server While ${this.responseR.operation} ${this.responseR.operand}`,
                     data: this.responseR.data,
+                    custom: this.responseR.custom
                 }
             }
             this.response = {
                 success: false,
                 msg: `Somehting Went Wrong While ${this.responseR.operation} ${this.responseR.operand}`,
                 data: null,
+                custom: this.responseR.custom
             }
         }else{
             this.response = {
                 success: true,
                 msg: `${this.responseR.operation} ${this.responseR.operand} Done SUCCESSFULLY`,
                 data: this.responseR.data,
+                custom: this.responseR.custom
             }
         }
     }

@@ -1,19 +1,21 @@
 // import ('dotenv/config');
 import express from 'express';
 import { DbConnection } from './configs/db';
-const app = express();
-// import  cors from 'cors';
-// import  {router}  from './routes/product.routes';
-// import { db } from './configs/db';
-import { router } from './routes/product.routes';
+//Routes
+import { router as ProductRoutes } from './routes/product.routes';
+import { AuthRoutes } from './routes/auth.routes';
 
+//application configs
+const app = express();
 const port = process.env.PORT || 3300;
 
 app.use(express.json());
 
 
 //mount routers
-app.use('/products', router);
+app.use('/api/products', ProductRoutes);
+app.use('/api/auth', AuthRoutes);
+
 
 
 

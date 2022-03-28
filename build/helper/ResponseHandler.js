@@ -12,12 +12,14 @@ class ResponseHandler {
                     success: false,
                     msg: `Internal Server While ${this.responseR.operation} ${this.responseR.operand}`,
                     data: this.responseR.data,
+                    custom: this.responseR.custom
                 };
             }
             this.response = {
                 success: false,
                 msg: `Somehting Went Wrong While ${this.responseR.operation} ${this.responseR.operand}`,
                 data: null,
+                custom: this.responseR.custom
             };
         }
         else {
@@ -25,6 +27,7 @@ class ResponseHandler {
                 success: true,
                 msg: `${this.responseR.operation} ${this.responseR.operand} Done SUCCESSFULLY`,
                 data: this.responseR.data,
+                custom: this.responseR.custom
             };
         }
     }

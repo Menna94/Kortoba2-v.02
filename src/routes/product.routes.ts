@@ -1,29 +1,16 @@
 import { Router } from "express";
 import { addProduct, deleteProduct, getProduct, getProducts, updateProduct } from "../controllers/product.controller";
 
-const router = Router();
 
+export const ProductRoutes = (router:Router)=>{
+    router
+        .route('/')
+            .get(getProducts)//Fetch All Products => GET /api/products
+            .post(addProduct)//Create A Product => POST /api/products
 
-//Fetch All Products
-//GET /products/:id
-router.get('/', getProducts);
-
-//Fetch A Product
-//GET /products/:id
-router.get('/:id', getProduct);
-
-//Create A Product
-//POST /products/:id
-router.post('/', addProduct);
-
-
-//Update A Product
-//PUT /products/:id
-router.put('/:id', updateProduct);
-
-
-//Delete A Product
-//DELETE /products/:id
-router.delete('/:id', deleteProduct);
-
-export { router };
+    router
+        .route('/:id')
+            .get(getProduct)//Fetch Single Product => GET /api/products/:id
+            .put(updateProduct)//Update Single Product => PUT /api/products/:id
+            .delete(deleteProduct)//Delete Single Product => DELETE /api/products/:id
+}

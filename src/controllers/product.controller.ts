@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { ResponseHandler } from "../helper/ResponseHandler";
-// import { DbConnection as  } from "../configs/db";
-import { Product } from "../models/Product"
+import { Product } from "../repositories/Product";
+import { IProduct } from "../models/Product";
+
 
 
 
@@ -18,7 +19,7 @@ export const addProduct =  async (req: Request, res: Response) => {
             shortDescription,
             imgURL,
             user_id
-        } :Product = req.body;
+        } :IProduct = req.body;
         
         
         const product = new Product(req.body);
@@ -111,7 +112,7 @@ export const updateProduct =  async (req: Request, res: Response) => {
             price,
             shortDescription,
             imgURL,
-        } :Product = req.body;
+        } :IProduct = req.body;
         
         
         const product = await Product.update(id, req.body)
