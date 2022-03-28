@@ -17,3 +17,6 @@ router.post('/', product_controller_1.addProduct);
 //Update A Product
 //PUT /products/:id
 router.put('/:id', product_controller_1.updateProduct);
+//Delete A Product
+//DELETE /products/:id
+router.delete('/:id', product_controller_1.deleteProduct);

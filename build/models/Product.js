@@ -66,6 +66,13 @@ class Product {
             return rows;
         }));
     }
-    static delete() { }
+    static delete(id) {
+        const query = 'DELETE FROM product WHERE id = ?';
+        return (0, db_1.DbConnection)()
+            .then((conn) => __awaiter(this, void 0, void 0, function* () {
+            const [rows, fields] = yield conn.execute(query, [id]);
+            return rows;
+        }));
+    }
 }
 exports.Product = Product;

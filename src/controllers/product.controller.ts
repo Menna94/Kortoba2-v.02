@@ -133,3 +133,42 @@ export const updateProduct =  async (req: Request, res: Response) => {
     }
 
 }
+
+
+//@desc     Delete A Product
+//@route    DELETE /products/:id
+//@access   private/@publisher/@admin
+export const deleteProduct =  async (req: Request, res: Response) => {
+    let response;
+    const id = +req.params.id;
+    try{
+
+        const product = await Product.findBy('id', id);
+
+        if(!product){
+            response = new ResponseHandler({ statusCode:404, data: null, operation:'Deleting', operand:'Product'} )
+            response.respond();
+            return res.status(200).send(response.response);
+        }else{
+            const delProduct = await Product.delete(id);
+
+            if (!delProduct) {
+                response = new ResponseHandler({ statusCode:400, data: null, operation:'Deleting', operand:'Product'} )
+                response.respond();
+                return res.status(200).send(response.response);
+            }
+            response = new ResponseHandler({ statusCode:200, data:null, operation:'Deleting', operand:'Product'} )
+            response.respond();
+            res.status(200).send(response.response);
+        }
+        
+        
+    }
+
+    catch(err){
+        response = new ResponseHandler({ statusCode:500, data: err.message, operation:'Deleting', operand:'Product'} )
+        response.respond();
+        return res.status(500).send(response.response);
+    }
+
+}

@@ -77,6 +77,13 @@ export class Product{
 
     }
 
-    static delete(){} 
+    static delete(id:number){
+      const query = 'DELETE FROM product WHERE id = ?'
+      return DbConnection()
+      .then(async conn=>{
+        const [rows, fields] = await conn.execute(query, [id]);
+        return rows;
+      })
+    } 
 
 }

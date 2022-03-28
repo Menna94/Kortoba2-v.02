@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateProduct = exports.getProduct = exports.getProducts = exports.addProduct = void 0;
+exports.deleteProduct = exports.updateProduct = exports.getProduct = exports.getProducts = exports.addProduct = void 0;
 const ResponseHandler_1 = require("../helper/ResponseHandler");
 // import { DbConnection as  } from "../configs/db";
 const Product_1 = require("../models/Product");
@@ -110,3 +110,35 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.updateProduct = updateProduct;
+//@desc     Delete A Product
+//@route    DELETE /products/:id
+//@access   private/@publisher/@admin
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    let response;
+    const id = +req.params.id;
+    try {
+        const product = yield Product_1.Product.findBy('id', id);
+        if (!product) {
+            response = new ResponseHandler_1.ResponseHandler({ statusCode: 404, data: null, operation: 'Deleting', operand: 'Product' });
+            response.respond();
+            return res.status(200).send(response.response);
+        }
+        else {
+            const delProduct = yield Product_1.Product.delete(id);
+            if (!delProduct) {
+                response = new ResponseHandler_1.ResponseHandler({ statusCode: 400, data: null, operation: 'Deleting', operand: 'Product' });
+                response.respond();
+                return res.status(200).send(response.response);
+            }
+            response = new ResponseHandler_1.ResponseHandler({ statusCode: 200, data: null, operation: 'Deleting', operand: 'Product' });
+            response.respond();
+            res.status(200).send(response.response);
+        }
+    }
+    catch (err) {
+        response = new ResponseHandler_1.ResponseHandler({ statusCode: 500, data: err.message, operation: 'Deleting', operand: 'Product' });
+        response.respond();
+        return res.status(500).send(response.response);
+    }
+});
+exports.deleteProduct = deleteProduct;
