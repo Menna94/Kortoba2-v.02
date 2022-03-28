@@ -2,8 +2,10 @@
 import express from 'express';
 import { DbConnection } from './configs/db';
 //Routes
-import { router as ProductRoutes } from './routes/product.routes';
+import { ProductRoutes } from './routes/product.routes';
 import { AuthRoutes } from './routes/auth.routes';
+import { UserRoutes } from './routes/user.routes';
+
 
 //application configs
 const app = express();
@@ -14,11 +16,12 @@ app.use(express.json());
 
 //mount routers
 app.use('/api/products', ProductRoutes);
+app.use('/api/users', UserRoutes);
 app.use('/api/auth', AuthRoutes);
 
 
 
-
+//application running
 DbConnection()
 .then(()=>{
     console.log('from app listening');
