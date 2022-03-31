@@ -1,4 +1,4 @@
-// import ('dotenv/config');
+require('dotenv').config({ path: __dirname+'./configs/.env' });
 import express from 'express';
 import { DbConnection } from './configs/db';
 //Routes
@@ -13,11 +13,15 @@ const port = process.env.PORT || 3300;
 
 app.use(express.json());
 
+console.log('hi')
+console.log(`${ __dirname+'./configs/.env'}`);
+
+console.log(process.env.PORT);
 
 //mount routers
-app.use('/api/products', ProductRoutes);
-app.use('/api/users', UserRoutes);
-app.use('/api/auth', AuthRoutes);
+ProductRoutes(app);
+UserRoutes(app);
+AuthRoutes(app);
 
 
 

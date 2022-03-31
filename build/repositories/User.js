@@ -14,7 +14,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const db_1 = require("../configs/db");
-const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class User {
     constructor(user) {
@@ -28,8 +27,6 @@ class User {
         VALUES 
             (?, ?, ?, ?)
       `;
-            //hashing password
-            this.user.password = yield bcrypt_1.default.hash(this.user.password, 10);
             const params = [
                 this.user.name,
                 this.user.email,
@@ -46,19 +43,10 @@ class User {
         return __awaiter(this, void 0, void 0, function* () {
             return yield jsonwebtoken_1.default.sign({
                 id
-            }, process.env.JWT_SECRET, {
-                expiresIn: process.env.JWT_EXPIRATION
+            }, 'process.env.JWT_SECRET', {
+                expiresIn: 'process.env.JWT_EXPIRATION'
             });
         });
-    }
-    static login(email, password) {
-        const query = 'SELECT * FROM user WHERE `email`=? AND `password`= ?';
-        const params = [email, password];
-        return (0, db_1.DbConnection)()
-            .then((conn) => __awaiter(this, void 0, void 0, function* () {
-            const [rows, fields] = yield conn.execute(`SELECT * FROM users WHERE email="${email}" AND password="${password}"`);
-            return rows;
-        }));
     }
     static find() {
         return (0, db_1.DbConnection)()
@@ -70,7 +58,7 @@ class User {
     static findBy(field, data) {
         return (0, db_1.DbConnection)()
             .then((conn) => __awaiter(this, void 0, void 0, function* () {
-            const [rows, fields] = yield conn.execute(`SELECT * FROM user WHERE ${field} = ${data}`);
+            const [rows, fields] = yield conn.execute(`SELECT * FROM user WHERE ${field} = '${data}'`);
             return rows;
         }));
     }

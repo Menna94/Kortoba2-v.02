@@ -3,13 +3,14 @@ import { addProduct, deleteProduct, getProduct, getProducts, updateProduct } fro
 
 
 export const ProductRoutes = (router:Router)=>{
+    const route = '/api/products'
     router
-        .route('/')
+        .route(`${route}/`)
             .get(getProducts)//Fetch All Products => GET /api/products
             .post(addProduct)//Create A Product => POST /api/products
 
     router
-        .route('/:id')
+        .route(`${route}/:id`)
             .get(getProduct)//Fetch Single Product => GET /api/products/:id
             .put(updateProduct)//Update Single Product => PUT /api/products/:id
             .delete(deleteProduct)//Delete Single Product => DELETE /api/products/:id

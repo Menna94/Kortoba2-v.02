@@ -1,6 +1,5 @@
 import { DbConnection } from "../configs/db";
 import { IUser } from "../models/User"
-import bcrypt from 'bcrypt';
 import  JWT  from "jsonwebtoken";
 
 export class User{
@@ -14,9 +13,7 @@ export class User{
             (?, ?, ?, ?)
       `;
 
-      //hashing password
-      this.user.password = await bcrypt.hash(this.user.password, 10);
-
+      
       const params = [
         this.user.name,
         this.user.email,
@@ -34,21 +31,11 @@ export class User{
       return await JWT.sign({
           id
       }, 
-      process.env.JWT_SECRET,{
-          expiresIn: process.env.JWT_EXPIRATION
+      'process.env.JWT_SECRET',{
+          expiresIn: 'process.env.JWT_EXPIRATION'
       })
     }
 
-    static login(email:string, password:string){
-      const query = 'SELECT * FROM user WHERE `email`=? AND `password`= ?';
-      const params = [email, password];
-
-      return DbConnection()
-      .then(async conn=>{
-        const [rows, fields] = await conn.execute(`SELECT * FROM users WHERE email="${email}" AND password="${password}"`);        
-        return rows;
-      })
-    }
 
     static find(){
         return DbConnection()
@@ -61,7 +48,7 @@ export class User{
     static findBy(field:string, data: any){
       return DbConnection()
       .then(async conn=>{
-        const [rows, fields] = await conn.execute(`SELECT * FROM user WHERE ${field} = ${data}`);
+        const [rows, fields] = await conn.execute(`SELECT * FROM user WHERE ${field} = '${data}'`);
         return rows;
       })
     }
